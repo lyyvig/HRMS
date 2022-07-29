@@ -1,13 +1,11 @@
 package com.hrms.entities.concretes;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor

@@ -3,7 +3,6 @@ package com.hrms.api.controllers;
 import com.hrms.business.abstracts.JobTitleService;
 import com.hrms.core.utilities.results.DataResult;
 import com.hrms.core.utilities.results.Result;
-import com.hrms.entities.concretes.Employer;
 import com.hrms.entities.concretes.JobTitle;
 import org.springframework.web.bind.annotation.*;
 

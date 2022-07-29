@@ -1,8 +1,7 @@
 package com.hrms.dataAccess.abstracts;
 
-import com.hrms.entities.concretes.Candidate;
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.hrms.entities.concretes.Employer;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;

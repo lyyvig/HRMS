@@ -1,13 +1,12 @@
 package com.hrms.api.controllers;
 
 import com.hrms.business.abstracts.AccountVerificationService;
-import com.hrms.core.utilities.results.DataResult;
 import com.hrms.core.utilities.results.Result;
 import com.hrms.entities.concretes.AccountVerification;
-import com.hrms.entities.concretes.Employer;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/accountverifications")

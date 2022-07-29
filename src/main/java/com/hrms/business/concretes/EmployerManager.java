@@ -3,19 +3,16 @@ package com.hrms.business.concretes;
 import com.hrms.business.abstracts.AccountVerificationService;
 import com.hrms.business.abstracts.EmailVerificationService;
 import com.hrms.business.abstracts.EmployerService;
-import com.hrms.business.constants.EmailAddresses;
 import com.hrms.business.constants.Messages;
 import com.hrms.core.utilities.adapters.email.EmailService;
-import com.hrms.core.utilities.adapters.mernis.MernisPerson;
 import com.hrms.core.utilities.business.BusinessRules;
 import com.hrms.core.utilities.results.*;
 import com.hrms.dataAccess.abstracts.EmployerDao;
-import com.hrms.entities.concretes.*;
+import com.hrms.entities.concretes.Employer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class EmployerManager implements EmployerService {

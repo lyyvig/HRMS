@@ -2,21 +2,17 @@ package com.hrms.business.concretes;
 
 import com.hrms.business.abstracts.CandidateService;
 import com.hrms.business.abstracts.EmailVerificationService;
-import com.hrms.business.constants.EmailAddresses;
 import com.hrms.business.constants.Messages;
-import com.hrms.core.utilities.adapters.email.EmailService;
 import com.hrms.core.utilities.adapters.mernis.MernisPerson;
 import com.hrms.core.utilities.adapters.mernis.PersonCheckService;
 import com.hrms.core.utilities.business.BusinessRules;
 import com.hrms.core.utilities.results.*;
 import com.hrms.dataAccess.abstracts.CandidateDao;
 import com.hrms.entities.concretes.Candidate;
-import com.hrms.entities.concretes.EmailVerification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class CandidateManager implements CandidateService {
