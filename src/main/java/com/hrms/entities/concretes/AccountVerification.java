@@ -17,14 +17,11 @@ public class AccountVerification {
 	@Column(name = "id")
 	private int id;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "reviewer_id", referencedColumnName = "id")
+	@OneToOne
+	@JoinColumn(name = "reviewer_id", updatable = false, referencedColumnName = "id")
 	private Staff reviewer;
-
-	@Column(name = "verified")
-	private boolean verified;
 }
