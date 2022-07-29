@@ -46,4 +46,7 @@ public class JobOffer {
 
 	@Column(name = "max_salary")
 	private Integer maxSalary;
+
+	@Column(name = "active")
+	private boolean active;
 }
