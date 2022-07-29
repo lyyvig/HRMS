@@ -9,9 +9,9 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="employers")
+@Table(name="account_verifications")
 @Entity
-public class Employer {
+public class AccountVerification {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -21,12 +21,10 @@ public class Employer {
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
-	@Column(name = "company_name")
-	private String companyName;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "reviewer_id", referencedColumnName = "id")
+	private Staff reviewer;
 
-	@Column(name = "website_address")
-	private String websiteAddress;
-
-	@Column(name = "phone_number")
-	private String phoneNumber;
+	@Column(name = "verified")
+	private boolean verified;
 }

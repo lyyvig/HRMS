@@ -1,15 +1,10 @@
 package com.hrms.entities.concretes;
 
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class User {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 
@@ -26,4 +22,11 @@ public class User {
 
 	@Column(name = "password")
 	private String password;
+
+	@Column(name = "email_verified")
+	private boolean emailVerified;
+
+	@Column(name = "account_verified")
+	private boolean accountVerified;
+
 }
