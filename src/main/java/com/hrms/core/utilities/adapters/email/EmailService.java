@@ -5,5 +5,5 @@ import com.hrms.core.utilities.results.Result;
 
 
 public interface EmailService {
-    Result sendEmail(String emailFrom, String emailTo, String message);
+    Result sendEmail(String emailTo, String subject, String message);
 }

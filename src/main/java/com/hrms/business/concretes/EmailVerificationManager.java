@@ -33,7 +33,7 @@ public class EmailVerificationManager implements EmailVerificationService {
         user.setEmailVerified(false);
         EmailVerification verification = new EmailVerification(0, user, r.nextInt(9999));
         verificationDao.save(verification);
-        emailService.sendEmail(EmailAddresses.VERIFICATION_SENDER, user.getEmail(), String.valueOf(verification.getCode()));
+        emailService.sendEmail(user.getEmail(), String.valueOf(verification.getCode()), "Email Verification");
         return new SuccessResult(Messages.CHECK_YOUR_EMAILS_AND_VERIFY_YOUR_ACCOUNT);
     }
 
