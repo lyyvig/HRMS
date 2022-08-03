@@ -4,6 +4,7 @@ import com.hrms.core.utilities.results.DataResult;
 import com.hrms.core.utilities.results.Result;
 import com.hrms.core.utilities.results.SuccessDataResult;
 import com.hrms.core.utilities.results.SuccessResult;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 
@@ -16,6 +17,16 @@ public class TestFileService implements FileService{
 
     @Override
     public DataResult<String> uploadFile(File file, String path) {
+        return new SuccessDataResult<>("","File uploaded");
+    }
+
+    @Override
+    public DataResult<String> uploadFile(MultipartFile multipartFile) {
+        return new SuccessDataResult<>("","File uploaded");
+    }
+
+    @Override
+    public DataResult<String> uploadFile(MultipartFile multipartFile, String path) {
         return new SuccessDataResult<>("","File uploaded");
     }
 

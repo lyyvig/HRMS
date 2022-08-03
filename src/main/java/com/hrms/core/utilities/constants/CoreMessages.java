@@ -7,4 +7,5 @@ public class CoreMessages {
     public static final String FILE_UPLOAD_ERROR = "An unknown error occurred whilst uploading the file";
     public static final String FILE_DELETED = "File deleted";
     public static final String FILE_DELETE_ERROR = "An unknown error occurred whilst deleting the file";
+    public static final String FILE_TRANSFORMATION_ERROR = "File transformation error, please make sure file is in correct format and file is not corrupted";
 }
