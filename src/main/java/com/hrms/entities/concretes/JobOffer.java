@@ -14,6 +14,7 @@ import java.util.Date;
 @Entity
 public class JobOffer {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 

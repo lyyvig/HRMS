@@ -8,9 +8,11 @@ import com.hrms.core.utilities.results.SuccessResult;
 import com.hrms.dataAccess.abstracts.JobOfferDao;
 import com.hrms.entities.concretes.JobOffer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class JobOfferManager implements JobOfferService {
     JobOfferDao jobDao;
 
