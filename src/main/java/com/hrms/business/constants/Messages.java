@@ -13,4 +13,10 @@ public class Messages {
 
     public static final String JOB_ALREADY_EXISTS = "Job already exists";
     public static final String JOB_ADDED_SUCCESSFULLY = "Job added successfully";
+
+    public static final String RESUME_ALREADY_EXISTS = "Resume already exists";
+    public static final String RESUME_SAVED = "Resume saved";
+
+    public static final String OBJECT_MAPPING_FAILED = "Object mapping failed, please make sure data is correct";
+
 }
