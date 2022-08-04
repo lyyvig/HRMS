@@ -48,18 +48,15 @@ public class EmployerManager implements EmployerService {
             return businessResult;
         }
 
-        Result emailVerificationResult = emailVerificationService.createVerification(employer.getUser());
-        if(!emailVerificationResult.isSuccess()){
-            return emailVerificationResult;
-        }
+        employerDao.save(employer);
 
         Result accountVerificationResult = accountVerificationService.createVerification(employer.getUser());
         if(!accountVerificationResult.isSuccess()) {
             return accountVerificationResult;
         }
 
+        Result emailVerificationResult = emailVerificationService.createVerification(employer.getUser());
 
-        employerDao.save(employer);
         return emailVerificationResult;
     }
 

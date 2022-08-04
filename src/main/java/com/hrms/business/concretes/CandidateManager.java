@@ -51,9 +51,9 @@ public class CandidateManager implements CandidateService {
 
         candidate.getUser().setAccountVerified(true);
 
-        Result verificationResult = emailVerificationService.createVerification(candidate.getUser());
-
         candidateDao.save(candidate);
+
+        Result verificationResult = emailVerificationService.createVerification(candidate.getUser());
 
         return verificationResult;
     }
