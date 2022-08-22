@@ -10,9 +10,7 @@ public interface CandidateDao extends JpaRepository<Candidate, Integer> {
     boolean existsCandidateByNationalIdentity(String nationalIdentity);
     boolean existsByUser_Email(String email);
 
-    @Query("""
-            select c from Candidate c
-            where c.user.emailVerified = true and c.user.accountVerified = true""")
+    @Query("select c from Candidate c where c.emailVerification.verified = true")
     List<Candidate> findVerifiedCandidates();
 
 

@@ -3,11 +3,9 @@ package com.hrms.business.concretes;
 import com.hrms.business.abstracts.AccountVerificationService;
 import com.hrms.business.abstracts.StaffService;
 import com.hrms.business.constants.Messages;
-import com.hrms.core.utilities.results.Result;
-import com.hrms.core.utilities.results.SuccessResult;
+import com.hrms.core.utilities.results.*;
 import com.hrms.dataAccess.abstracts.AccountVerificationDao;
 import com.hrms.entities.concretes.AccountVerification;
-import com.hrms.entities.concretes.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,19 +21,19 @@ public class AccountVerificationManager implements AccountVerificationService {
     }
 
     @Override
-    public Result createVerification(User user) {
-        user.setAccountVerified(false);
-        AccountVerification verification = new AccountVerification(0, user, null);
+    public DataResult<AccountVerification> createVerification() {
+        AccountVerification verification = new AccountVerification(0, null, false, "");
         verificationDao.save(verification);
-        return new SuccessResult();
+        return new SuccessDataResult<>(verification);
     }
 
     @Override
     public Result verify(AccountVerification verification) {
-        AccountVerification verificationToUpdate = verificationDao.getReferenceById(verification.getId());
-        verificationToUpdate.setReviewer(verification.getReviewer());
-        verificationToUpdate.getUser().setAccountVerified(true);
-        verificationDao.save(verificationToUpdate);
-        return new SuccessResult(Messages.ACCOUNT_HAS_BEEN_VERIFIED);
+        if(verificationDao.existsById(verification.getId())){
+            verification.setVerified(true);
+            verificationDao.save(verification);
+            return new SuccessResult(Messages.ACCOUNT_HAS_BEEN_VERIFIED);
+        }
+        return new ErrorResult(Messages.ACCOUNT_VERIFICATION_DOES_NOT_EXISTS);
     }
 }

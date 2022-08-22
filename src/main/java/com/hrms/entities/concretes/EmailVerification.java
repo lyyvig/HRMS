@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
@@ -17,11 +18,10 @@ public class EmailVerification {
     @Column(name = "id")
     private int id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
+    @NotNull
     @Column(name = "code")
     private int code;
 
+    @Column(name = "verified")
+    private boolean verified;
 }

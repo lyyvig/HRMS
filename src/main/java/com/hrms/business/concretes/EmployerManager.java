@@ -48,16 +48,21 @@ public class EmployerManager implements EmployerService {
             return businessResult;
         }
 
+        employer.setId(0);
+        employer.getUser().setId(0);
+
+        var accountVerificationResult = accountVerificationService.createVerification();
+
+        employer.setAccountVerification(accountVerificationResult.getData());
+
+        var emailVerificationResult = emailVerificationService.createVerification(employer.getUser());
+
+        employer.setEmailVerification(emailVerificationResult.getData());
+
         employerDao.save(employer);
 
-        Result accountVerificationResult = accountVerificationService.createVerification(employer.getUser());
-        if(!accountVerificationResult.isSuccess()) {
-            return accountVerificationResult;
-        }
+        return new SuccessResult(emailVerificationResult.getMessage());
 
-        Result emailVerificationResult = emailVerificationService.createVerification(employer.getUser());
-
-        return emailVerificationResult;
     }
 
     private Result checkIfUserEmailAlreadyExists(Employer employer){

@@ -49,13 +49,17 @@ public class CandidateManager implements CandidateService {
             return businessResult;
         }
 
-        candidate.getUser().setAccountVerified(true);
+        candidate.setId(0);
+        candidate.getUser().setId(0);
+
+        var emailVerification = emailVerificationService.createVerification(candidate.getUser());
+
+        candidate.setEmailVerification(emailVerification.getData());
+
 
         candidateDao.save(candidate);
 
-        Result verificationResult = emailVerificationService.createVerification(candidate.getUser());
-
-        return verificationResult;
+        return new SuccessResult(emailVerification.getMessage());
     }
 
     private Result checkIfNationalIdentityAlreadyExists(Candidate candidate) {

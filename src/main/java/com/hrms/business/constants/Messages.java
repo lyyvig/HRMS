@@ -19,4 +19,5 @@ public class Messages {
 
     public static final String OBJECT_MAPPING_FAILED = "Object mapping failed, please make sure data is correct";
 
+    public static final String ACCOUNT_VERIFICATION_DOES_NOT_EXISTS = "Account verification doesn't exists.";
 }

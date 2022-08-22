@@ -9,10 +9,11 @@ import java.util.List;
 public interface EmployerDao extends JpaRepository<Employer, Integer> {
     boolean existsByUser_Email(String email);
 
-    @Query("""
-            select e from Employer e
-            where e.user.emailVerified = true and e.user.accountVerified = true""")
+
+    @Query("select e from Employer e where e.emailVerification.verified = true and e.accountVerification.verified = true")
     List<Employer> findVerifiedEmployers();
+
+
 
 
 
