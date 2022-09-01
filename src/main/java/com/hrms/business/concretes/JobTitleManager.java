@@ -13,12 +13,8 @@ import java.util.List;
 
 @Service
 public class JobTitleManager implements JobTitleService {
-    JobTitleDao jobTitleDao;
-
     @Autowired
-    public JobTitleManager(JobTitleDao jobTitleDao) {
-        this.jobTitleDao = jobTitleDao;
-    }
+    JobTitleDao jobTitleDao;
 
     @Override
     public DataResult<List<JobTitle>> getAll() {
@@ -30,16 +26,16 @@ public class JobTitleManager implements JobTitleService {
         Result businessResult = BusinessRules.run(
                 checkIfJobExists(jobTitle)
         );
-        if(businessResult != null){
+        if (businessResult != null) {
             return businessResult;
         }
         jobTitleDao.save(jobTitle);
         return new SuccessResult(Messages.JOB_ADDED_SUCCESSFULLY);
     }
 
-    private Result checkIfJobExists(JobTitle job){
+    private Result checkIfJobExists(JobTitle job) {
         boolean exists = jobTitleDao.existsByTitle(job.getTitle());
-        if(exists){
+        if (exists) {
             return new ErrorResult(Messages.JOB_ALREADY_EXISTS);
         }
         return new SuccessResult();

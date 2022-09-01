@@ -14,12 +14,8 @@ import java.util.List;
 
 @Service
 public class JobOfferManager implements JobOfferService {
-    JobOfferDao jobDao;
-
     @Autowired
-    public JobOfferManager(JobOfferDao jobDao) {
-        this.jobDao = jobDao;
-    }
+    JobOfferDao jobDao;
 
     @Override
     public DataResult<List<JobOffer>> getAll() {
@@ -38,8 +34,8 @@ public class JobOfferManager implements JobOfferService {
     }
 
     @Override
-    public Result deactivateJob(JobOffer job) {
-        JobOffer jobToUpdate = jobDao.getReferenceById(job.getId());
+    public Result deactivateJob(int jobId) {
+        JobOffer jobToUpdate = jobDao.getReferenceById(jobId);
         jobToUpdate.setActive(false);
         jobDao.save(jobToUpdate);
         return new SuccessResult();

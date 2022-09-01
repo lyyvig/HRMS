@@ -1,36 +1,39 @@
 package com.hrms.entities.concretes.resume;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name="websites")
+@Table(name = "websites")
 @Entity
 public class Website {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
 
-	@ToString.Exclude
-	@JsonBackReference
-	@ManyToOne
-	@JoinColumn(name = "resume_id", updatable = false, referencedColumnName = "id", nullable=false)
-	private Resume resume;
+    @NotNull
+    @ToString.Exclude
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "resume_id", updatable = false, nullable = false, referencedColumnName = "id")
+    private Resume resume;
 
-	@Column(name = "website_address")
-	private String websiteAddress;
+    @NotNull
+    @Size(min = 2, max = 50)
+    @Column(name = "website_address")
+    private String websiteAddress;
 
-	@Column(name = "description")
-	private String description;
+    @NotNull
+    @Size(min = 2, max = 50)
+    @Column(name = "description")
+    private String description;
 }

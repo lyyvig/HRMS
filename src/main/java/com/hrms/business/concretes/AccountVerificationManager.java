@@ -11,25 +11,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AccountVerificationManager implements AccountVerificationService {
-    private AccountVerificationDao verificationDao;
-    private StaffService staffService;
-
     @Autowired
-    public AccountVerificationManager(AccountVerificationDao verificationDao, StaffService staffService) {
-        this.verificationDao = verificationDao;
-        this.staffService = staffService;
-    }
+    private AccountVerificationDao verificationDao;
 
     @Override
     public DataResult<AccountVerification> createVerification() {
         AccountVerification verification = new AccountVerification(0, null, false, "");
-        verificationDao.save(verification);
         return new SuccessDataResult<>(verification);
     }
 
     @Override
     public Result verify(AccountVerification verification) {
-        if(verificationDao.existsById(verification.getId())){
+        if (verificationDao.existsById(verification.getId())) {
             verification.setVerified(true);
             verificationDao.save(verification);
             return new SuccessResult(Messages.ACCOUNT_HAS_BEEN_VERIFIED);

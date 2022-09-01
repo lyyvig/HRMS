@@ -1,31 +1,34 @@
 package com.hrms.entities.concretes;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="account_verifications")
+@Table(name = "account_verifications")
 @Entity
 public class AccountVerification {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
 
-	@ManyToOne
-	@JoinColumn(name = "reviewer_id", referencedColumnName = "id")
-	private Staff reviewer;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "reviewer_id", referencedColumnName = "id")
+    private Staff reviewer;
 
-	@Column(name = "verified")
-	private boolean verified;
+    @Column(name = "verified")
+    private boolean verified;
 
-	@NotNull
-	@Column(name = "message")
-	private String message;
+    @NotNull
+    @Column(name = "message")
+    private String message;
 }

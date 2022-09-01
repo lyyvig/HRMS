@@ -1,7 +1,10 @@
 package com.hrms.api.controllers;
 
 import com.hrms.business.abstracts.ResumeService;
+import com.hrms.business.constants.Messages;
+import com.hrms.core.utilities.JsonUtils;
 import com.hrms.core.utilities.results.DataResult;
+import com.hrms.core.utilities.results.ErrorResult;
 import com.hrms.core.utilities.results.Result;
 import com.hrms.entities.concretes.resume.Resume;
 import org.springframework.http.MediaType;
@@ -25,7 +28,11 @@ public class ResumesController {
     }
 
     @PostMapping(value = "add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    Result add(@RequestPart String resume, @RequestPart MultipartFile file){
-        return resumeService.add(resume, file);
+    Result add(@RequestPart String resumeJson, @RequestPart MultipartFile file){
+        var resumeMapResult = JsonUtils.jsonToObject(resumeJson, Resume.class);
+        if(!resumeMapResult.isSuccess()){
+            return new ErrorResult(Messages.OBJECT_MAPPING_FAILED);
+        }
+        return resumeService.add(resumeMapResult.getData(), file);
     }
 }

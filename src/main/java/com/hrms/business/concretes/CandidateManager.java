@@ -3,6 +3,7 @@ package com.hrms.business.concretes;
 import com.hrms.business.abstracts.CandidateService;
 import com.hrms.business.abstracts.EmailVerificationService;
 import com.hrms.business.constants.Messages;
+import com.hrms.core.utilities.adapters.email.EmailService;
 import com.hrms.core.utilities.adapters.mernis.MernisPerson;
 import com.hrms.core.utilities.adapters.mernis.PersonCheckService;
 import com.hrms.core.utilities.business.BusinessRules;
@@ -16,16 +17,16 @@ import java.util.List;
 
 @Service
 public class CandidateManager implements CandidateService {
-    private CandidateDao candidateDao;
-    private EmailVerificationService emailVerificationService;
-    private PersonCheckService personCheckService;
-
     @Autowired
-    public CandidateManager(CandidateDao candidateDao, PersonCheckService personCheckService, EmailVerificationService emailVerificationService) {
-        this.candidateDao = candidateDao;
-        this.personCheckService = personCheckService;
-        this.emailVerificationService = emailVerificationService;
-    }
+    private CandidateDao candidateDao;
+    @Autowired
+    private EmailVerificationService emailVerificationService;
+    @Autowired
+    private PersonCheckService personCheckService;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private UserManager userManager;
 
 
     @Override
@@ -42,7 +43,7 @@ public class CandidateManager implements CandidateService {
     public Result add(Candidate candidate) {
         Result businessResult = BusinessRules.run(
                 checkIfNationalIdentityAlreadyExists(candidate),
-                checkIfUserEmailAlreadyExists(candidate),
+                userManager.checkIfEmailExists(candidate.getUser().getEmail()),
                 personCheckService.checkIfRealPerson(new MernisPerson(candidate.getFirstName(), candidate.getLastName(), candidate.getNationalIdentity(), candidate.getBirthYear()))
         );
         if (businessResult != null) {
@@ -52,12 +53,14 @@ public class CandidateManager implements CandidateService {
         candidate.setId(0);
         candidate.getUser().setId(0);
 
-        var emailVerification = emailVerificationService.createVerification(candidate.getUser());
+        var emailVerification = emailVerificationService.createVerification();
 
         candidate.setEmailVerification(emailVerification.getData());
 
-
         candidateDao.save(candidate);
+
+
+        emailService.sendEmail(candidate.getUser().getEmail(), String.valueOf(emailVerification.getData().getCode()), "Email Verification");
 
         return new SuccessResult(emailVerification.getMessage());
     }
@@ -70,12 +73,5 @@ public class CandidateManager implements CandidateService {
         return new SuccessResult();
     }
 
-     private Result checkIfUserEmailAlreadyExists(Candidate candidate) {
-        boolean isExists = candidateDao.existsByUser_Email(candidate.getUser().getEmail());
-        if (isExists) {
-            return new ErrorResult(Messages.EMAIL_ALREADY_EXISTS);
-        }
-        return new SuccessResult();
-    }
 
 }

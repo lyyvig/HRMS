@@ -1,6 +1,7 @@
 package com.hrms.business.concretes;
 
 import com.hrms.business.abstracts.StaffService;
+import com.hrms.core.utilities.business.BusinessRules;
 import com.hrms.core.utilities.results.DataResult;
 import com.hrms.core.utilities.results.Result;
 import com.hrms.core.utilities.results.SuccessDataResult;
@@ -14,12 +15,10 @@ import java.util.List;
 
 @Service
 public class StaffManager implements StaffService {
-    StaffDao staffDao;
-
     @Autowired
-    public StaffManager(StaffDao staffDao) {
-        this.staffDao = staffDao;
-    }
+    StaffDao staffDao;
+    @Autowired
+    private UserManager userManager;
 
     @Override
     public DataResult<List<Staff>> getAll() {
@@ -33,6 +32,12 @@ public class StaffManager implements StaffService {
 
     @Override
     public Result add(Staff staff) {
+        Result businessResult = BusinessRules.run(
+                userManager.checkIfEmailExists(staff.getUser().getEmail())
+        );
+        if (businessResult != null) {
+            return businessResult;
+        }
         staffDao.save(staff);
         return new SuccessResult();
     }

@@ -35,8 +35,8 @@ public class JobOffersController {
     }
 
     @PostMapping("deactivateJob")
-    Result deactivateJob(@RequestBody JobOffer jobOffer){
-        return jobOfferService.deactivateJob(jobOffer);
+    Result deactivateJob(@RequestParam int jobId){
+        return jobOfferService.deactivateJob(jobId);
     }
 
 }

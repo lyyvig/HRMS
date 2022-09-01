@@ -4,19 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hrms.entities.concretes.Candidate;
 import com.hrms.entities.concretes.Image;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name="resumes")
+@Table(name = "resumes")
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Resume {
@@ -25,12 +23,12 @@ public class Resume {
     @Column(name = "id")
     private int id;
 
-    @OneToOne()
-    @JoinColumn(name = "candidate_id", updatable = false, referencedColumnName = "id")
+    @OneToOne
+    @JoinColumn(name = "candidate_id", updatable = false, nullable = false, referencedColumnName = "id")
     private Candidate candidate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    @JoinColumn(name = "image_id", nullable = false, referencedColumnName = "id")
     private Image image;
 
     @Column(name = "summary")
@@ -55,9 +53,6 @@ public class Resume {
     @JsonManagedReference
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
     private List<WorkExperience> workExperiences;
-
-
-
 
 
 }

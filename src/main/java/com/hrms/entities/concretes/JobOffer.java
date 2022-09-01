@@ -1,53 +1,67 @@
 package com.hrms.entities.concretes;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="job_offers")
+@Table(name = "job_offers")
 @Entity
 public class JobOffer {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
 
-	@OneToOne
-	@JoinColumn(name = "employerId", updatable = false, referencedColumnName = "id")
-	private Employer employer;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "employerId", updatable = false, nullable = false, referencedColumnName = "id")
+    private Employer employer;
 
-	@OneToOne
-	@JoinColumn(name = "job_title_id", updatable = false, referencedColumnName = "id")
-	private JobTitle jobTitle;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "job_title_id", nullable = false, referencedColumnName = "id")
+    private JobTitle jobTitle;
 
-	@OneToOne
-	@JoinColumn(name = "city_id", updatable = false, referencedColumnName = "id")
-	private City city;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "city_id", nullable = false, referencedColumnName = "id")
+    private City city;
 
-	@Column(name = "description")
-	private String description;
+    @NotNull
+    @Size(min = 2, max = 500)
+    @Column(name = "description")
+    private String description;
 
-	@Column(name = "number_of_recruitment")
-	private int numberOfRecruitment;
+    @NotNull
+    @Min(1)
+    @Column(name = "number_of_recruitment")
+    private int numberOfRecruitment;
 
-	@Column(name = "publish_date")
-	private Date publishDate;
+    @NotNull
+    @Column(name = "publish_date")
+    private Date publishDate;
 
-	@Column(name = "closing_date")
-	private Date closingDate;
+    @NotNull
+    @Column(name = "closing_date")
+    private Date closingDate;
 
-	@Column(name = "min_salary")
-	private Integer minSalary;
+    @Column(name = "min_salary")
+    private Integer minSalary;
 
-	@Column(name = "max_salary")
-	private Integer maxSalary;
+    @Column(name = "max_salary")
+    private Integer maxSalary;
 
-	@Column(name = "active")
-	private boolean active;
+    @Column(name = "active")
+    private boolean active;
 }

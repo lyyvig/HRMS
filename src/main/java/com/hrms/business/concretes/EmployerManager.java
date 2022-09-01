@@ -3,10 +3,12 @@ package com.hrms.business.concretes;
 import com.hrms.business.abstracts.AccountVerificationService;
 import com.hrms.business.abstracts.EmailVerificationService;
 import com.hrms.business.abstracts.EmployerService;
-import com.hrms.business.constants.Messages;
 import com.hrms.core.utilities.adapters.email.EmailService;
 import com.hrms.core.utilities.business.BusinessRules;
-import com.hrms.core.utilities.results.*;
+import com.hrms.core.utilities.results.DataResult;
+import com.hrms.core.utilities.results.Result;
+import com.hrms.core.utilities.results.SuccessDataResult;
+import com.hrms.core.utilities.results.SuccessResult;
 import com.hrms.dataAccess.abstracts.EmployerDao;
 import com.hrms.entities.concretes.Employer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +18,16 @@ import java.util.List;
 
 @Service
 public class EmployerManager implements EmployerService {
-    private EmployerDao employerDao;
-    private EmailService emailService;
-    private EmailVerificationService emailVerificationService;
-    private AccountVerificationService accountVerificationService;
-
     @Autowired
-    public EmployerManager(EmployerDao employerDao, EmailService emailService, EmailVerificationService emailVerificationService, AccountVerificationService accountVerificationService) {
-        this.employerDao = employerDao;
-        this.emailService = emailService;
-        this.emailVerificationService = emailVerificationService;
-        this.accountVerificationService = accountVerificationService;
-    }
+    private EmployerDao employerDao;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private EmailVerificationService emailVerificationService;
+    @Autowired
+    private AccountVerificationService accountVerificationService;
+    @Autowired
+    private UserManager userManager;
 
     @Override
     public DataResult<List<Employer>> getAll() {
@@ -42,9 +42,9 @@ public class EmployerManager implements EmployerService {
     @Override
     public Result add(Employer employer) {
         Result businessResult = BusinessRules.run(
-                checkIfUserEmailAlreadyExists(employer)
+                userManager.checkIfEmailExists(employer.getUser().getEmail())
         );
-        if(businessResult!=null){
+        if (businessResult != null) {
             return businessResult;
         }
 
@@ -55,21 +55,16 @@ public class EmployerManager implements EmployerService {
 
         employer.setAccountVerification(accountVerificationResult.getData());
 
-        var emailVerificationResult = emailVerificationService.createVerification(employer.getUser());
+        var emailVerificationResult = emailVerificationService.createVerification();
 
         employer.setEmailVerification(emailVerificationResult.getData());
 
         employerDao.save(employer);
 
+        emailService.sendEmail(employer.getUser().getEmail(), "Email Verification", String.valueOf(emailVerificationResult.getData().getCode()));
+
         return new SuccessResult(emailVerificationResult.getMessage());
 
     }
 
-    private Result checkIfUserEmailAlreadyExists(Employer employer){
-        boolean isExists = employerDao.existsByUser_Email(employer.getUser().getEmail());
-        if(isExists){
-            return new ErrorResult(Messages.EMAIL_ALREADY_EXISTS);
-        }
-        return new SuccessResult();
-    }
 }
